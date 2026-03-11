@@ -192,6 +192,109 @@ body::after{
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 .fade-in{animation:fadeUp 0.32s ease both;}
+
+/* ═══ LEADERBOARD ═══ */
+.lb-btn{
+  padding:0.55rem 1.4rem;background:transparent;
+  border:1px solid var(--border2);color:var(--text-faint);
+  font-family:'Share Tech Mono',monospace;font-size:0.7rem;
+  letter-spacing:0.15em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;margin-left:0.6rem;
+}
+.lb-btn:hover{border-color:var(--gold);color:var(--gold);}
+.start-actions{display:flex;justify-content:center;align-items:center;gap:0.5rem;flex-wrap:wrap;animation:fadeUp 0.7s 0.4s ease both;}
+
+#leaderboard-screen{text-align:center;padding:1rem 0 3rem;}
+.lb-title{
+  font-family:'Share Tech Mono',monospace;
+  font-size:clamp(1rem,3vw,1.6rem);
+  letter-spacing:0.1em;color:var(--accent);
+  text-transform:uppercase;margin-bottom:0.3rem;
+  animation:fadeUp 0.5s ease both;
+}
+.lb-sub{font-size:0.72rem;color:var(--text-faint);letter-spacing:0.2em;text-transform:uppercase;font-family:'Share Tech Mono',monospace;margin-bottom:1.5rem;}
+.lb-table{width:100%;border-collapse:collapse;margin-bottom:2rem;}
+.lb-table th{
+  font-family:'Share Tech Mono',monospace;font-size:0.58rem;
+  letter-spacing:0.2em;color:var(--text-faint);text-transform:uppercase;
+  padding:0.5rem 0.8rem;border-bottom:1px solid var(--border2);text-align:left;
+}
+.lb-table td{
+  padding:0.75rem 0.8rem;border-bottom:1px solid var(--bg3);
+  font-size:0.82rem;color:var(--text-dim);text-align:left;
+}
+.lb-table tr:hover td{background:var(--bg3);}
+.lb-rank-cell{font-family:'Share Tech Mono',monospace;font-size:0.78rem;color:var(--text-faint);width:2rem;}
+.lb-name-cell{color:var(--text);}
+.lb-score-cell{font-family:'Share Tech Mono',monospace;color:var(--accent);text-align:right!important;}
+.lb-pct-cell{font-family:'Share Tech Mono',monospace;text-align:right!important;}
+.lb-topic-cell{font-size:0.7rem;color:var(--text-faint);}
+.lb-date-cell{font-size:0.7rem;color:var(--text-faint);}
+.lb-gold td{background:rgba(245,158,11,0.05)!important;}
+.lb-gold .lb-rank-cell{color:var(--gold);}
+.lb-silver td{background:rgba(148,163,184,0.04)!important;}
+.lb-silver .lb-rank-cell{color:#94a3b8;}
+.lb-bronze td{background:rgba(180,120,60,0.04)!important;}
+.lb-bronze .lb-bronze-rank{color:#cd7f32;}
+.lb-bronze .lb-rank-cell{color:#cd7f32;}
+.lb-me td{outline:1px solid rgba(56,189,248,0.3);}
+.lb-empty{color:var(--text-faint);font-style:italic;padding:2rem;font-size:0.85rem;}
+.lb-loading{color:var(--text-faint);font-style:italic;padding:2rem;font-family:'Share Tech Mono',monospace;font-size:0.8rem;}
+.lb-error{color:#fca5a5;font-style:italic;padding:1rem;font-size:0.82rem;}
+.lb-back-btn{
+  padding:0.72rem 2.2rem;background:transparent;
+  border:2px solid var(--border2);color:var(--text-dim);
+  font-family:'Share Tech Mono',monospace;font-size:0.78rem;
+  letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;
+  transition:all 0.25s;margin-bottom:1rem;
+}
+.lb-back-btn:hover{border-color:var(--accent);color:var(--accent);}
+.lb-filter-row{display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;}
+.lb-filter-btn{
+  padding:0.3rem 0.8rem;border:1px solid var(--border2);background:transparent;
+  color:var(--text-faint);cursor:pointer;font-size:0.65rem;
+  letter-spacing:0.1em;text-transform:uppercase;font-family:'Share Tech Mono',monospace;
+  transition:all 0.2s;border-radius:3px;
+}
+.lb-filter-btn:hover{border-color:var(--accent);color:var(--text-dim);}
+.lb-filter-btn.sel{border-color:var(--accent);background:rgba(56,189,248,0.08);color:var(--accent);}
+
+/* name entry modal */
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);
+  z-index:100;align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:var(--bg2);border:1px solid var(--border2);
+  padding:2.2rem 2rem;max-width:380px;width:90%;text-align:center;
+  animation:fadeUp 0.3s ease both;
+}
+.modal-title{font-family:'Share Tech Mono',monospace;font-size:0.9rem;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:0.5rem;}
+.modal-sub{font-size:0.8rem;color:var(--text-dim);margin-bottom:1.4rem;}
+.modal-input{
+  width:100%;padding:0.75rem 1rem;background:var(--bg3);
+  border:1px solid var(--border2);color:var(--text);
+  font-family:'Share Tech Mono',monospace;font-size:0.88rem;
+  outline:none;margin-bottom:1.2rem;text-align:center;letter-spacing:0.05em;
+}
+.modal-input:focus{border-color:var(--accent);}
+.modal-actions{display:flex;gap:0.8rem;justify-content:center;}
+.modal-submit{
+  padding:0.65rem 2rem;background:transparent;
+  border:2px solid var(--accent);color:var(--accent);
+  font-family:'Share Tech Mono',monospace;font-size:0.75rem;
+  letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;
+}
+.modal-submit:hover{background:var(--accent2);color:#fff;border-color:var(--accent2);}
+.modal-skip{
+  padding:0.65rem 1.4rem;background:transparent;
+  border:1px solid var(--border2);color:var(--text-faint);
+  font-family:'Share Tech Mono',monospace;font-size:0.75rem;
+  letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;
+}
+.modal-skip:hover{border-color:var(--text-dim);color:var(--text-dim);}
+.res-lb-row{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem;}
 </style>
 </head>
 <body>
@@ -207,6 +310,8 @@ body::after{
   <div class="civ-grid" id="civGrid"></div>
   <p class="count-text" id="countText"></p>
   <button class="start-btn" onclick="startQuiz()">$ run quiz.exe</button>
+  <br/><br/>
+  <button class="lb-btn" onclick="openLeaderboard()">&#11041; leaderboard</button>
 </div>
 
 <!-- QUIZ -->
@@ -235,9 +340,36 @@ body::after{
   <div class="res-rank" id="resRank"></div>
   <p class="res-sub" id="resSub"></p>
   <div class="res-bar-wrap"><div class="res-bar" id="resBar"></div></div>
-  <button class="play-again-btn" onclick="goHome()">$ restart</button>
+  <div class="res-lb-row">
+    <button class="play-again-btn" onclick="goHome()" style="margin-bottom:0;">$ restart</button>
+    <button class="lb-btn" onclick="openLeaderboard()" style="padding:0.78rem 2rem;font-size:0.78rem;border-width:2px;">&#11041; leaderboard</button>
+  </div>
   <div class="review-hdr">// Review Answers</div>
   <div id="reviewList"></div>
+</div>
+
+<!-- LEADERBOARD -->
+<div id="leaderboard-screen" class="screen">
+  <p class="lb-title">&#11041; Leaderboard</p>
+  <p class="lb-sub">// Top scores from all players</p>
+  <div class="lb-filter-row" id="lbFilterRow"></div>
+  <div id="lbContent"><p class="lb-loading">// fetching scores...</p></div>
+  <button class="lb-back-btn" onclick="goHome()">&#8592; back to menu</button>
+</div>
+
+</div>
+
+<!-- NAME ENTRY MODAL -->
+<div class="modal-overlay" id="nameModal">
+  <div class="modal-box">
+    <p class="modal-title">// Submit Score</p>
+    <p class="modal-sub" id="modalSubText">Enter your name to post your score to the leaderboard.</p>
+    <input class="modal-input" id="nameInput" type="text" maxlength="20" placeholder="your name..." autocomplete="off"/>
+    <div class="modal-actions">
+      <button class="modal-submit" onclick="submitScore()">post score</button>
+      <button class="modal-skip" onclick="closeModal()">skip</button>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -530,9 +662,207 @@ function showResults(){
       ${!a.ok?`<div class="rev-ans">✓ Correct: ${a.correct}</div>`:''}`;
     list.appendChild(d);
   });
+
+  // Store for leaderboard submission
+  pendingScore = {
+    score, total: questions.length, pct, rank,
+    topic: selTopic
+  };
+
+  // Auto-prompt name entry after a short delay
+  setTimeout(() => {
+    document.getElementById('modalSubText').textContent =
+      `You scored ${pct}% (${score}/${questions.length}). Enter your name to post it!`;
+    document.getElementById('nameInput').value = localStorage.getItem('lbName') || '';
+    document.getElementById('nameModal').classList.add('open');
+  }, 900);
 }
 
 function goHome(){showScreen('start-screen');}
+
+// ═══════════════════════════════════════════
+// LEADERBOARD  — powered by JSONBin.io
+// HOW TO SET UP (free, takes 2 min):
+//   1. Go to https://jsonbin.io and create a free account
+//   2. Click "Create Bin", paste in: {"scores":[]}  then save
+//   3. Copy the Bin ID from the URL (looks like: 64abc123...)
+//   4. Go to Account → API Keys → Create a key (Master Key)
+//   5. Paste both below
+// ═══════════════════════════════════════════
+const JSONBIN_BIN_ID = 'YOUR_BIN_ID_HERE';
+const JSONBIN_API_KEY = 'YOUR_API_KEY_HERE';
+const JSONBIN_BASE = 'https://api.jsonbin.io/v3/b/';
+
+let lbFilterTopic = 'All';
+let pendingScore = null;
+
+// ── Read all scores ──────────────────────────────────────
+async function fetchScores() {
+  if (JSONBIN_BIN_ID === 'YOUR_BIN_ID_HERE') return getMockScores();
+  try {
+    const res = await fetch(`${JSONBIN_BASE}${JSONBIN_BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': JSONBIN_API_KEY }
+    });
+    if (!res.ok) throw new Error('fetch failed');
+    const data = await res.json();
+    return data.record.scores || [];
+  } catch (e) {
+    return null;
+  }
+}
+
+// ── Write scores back ────────────────────────────────────
+async function saveScores(scores) {
+  if (JSONBIN_BIN_ID === 'YOUR_BIN_ID_HERE') return true;
+  try {
+    const res = await fetch(`${JSONBIN_BASE}${JSONBIN_BIN_ID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_API_KEY
+      },
+      body: JSON.stringify({ scores })
+    });
+    return res.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
+// ── Demo scores shown when not yet configured ────────────
+function getMockScores() {
+  return [
+    { name: 'Marjhun', score: 999, total: 999, pct: 999, topic: 'All', rank: 'Omega Rank', date: '2025-03-10' }
+  ];
+}
+
+// ── Open leaderboard from results screen ────────────────
+function openLeaderboard() {
+  // If we have a fresh score that hasn't been submitted, prompt name entry
+  if (pendingScore) {
+    document.getElementById('modalSubText').textContent =
+      `You scored ${pendingScore.pct}% (${pendingScore.score}/${pendingScore.total}). Enter your name to post it!`;
+    document.getElementById('nameInput').value = localStorage.getItem('lbName') || '';
+    document.getElementById('nameModal').classList.add('open');
+    return;
+  }
+  showLeaderboard();
+}
+
+// ── Render the leaderboard screen ───────────────────────
+async function showLeaderboard() {
+  showScreen('leaderboard-screen');
+  buildLbFilters();
+  const el = document.getElementById('lbContent');
+  el.innerHTML = '<p class="lb-loading">// fetching scores...</p>';
+
+  const scores = await fetchScores();
+  if (scores === null) {
+    el.innerHTML = '<p class="lb-error">Could not load scores. Check your JSONBin config or network.</p>';
+    return;
+  }
+
+  renderLbTable(scores);
+}
+
+function buildLbFilters() {
+  const row = document.getElementById('lbFilterRow');
+  if (row.childElementCount > 0) return; // already built
+  ['All', ...TOPICS.filter(t => t !== 'All')].forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'lb-filter-btn' + (t === lbFilterTopic ? ' sel' : '');
+    b.textContent = t;
+    b.onclick = () => {
+      lbFilterTopic = t;
+      document.querySelectorAll('.lb-filter-btn').forEach(x => x.classList.remove('sel'));
+      b.classList.add('sel');
+      showLeaderboard();
+    };
+    row.appendChild(b);
+  });
+}
+
+function renderLbTable(scores) {
+  const el = document.getElementById('lbContent');
+  let filtered = lbFilterTopic === 'All' ? scores : scores.filter(s => s.topic === lbFilterTopic || s.topic === 'All');
+  filtered = [...filtered].sort((a, b) => b.pct - a.pct || b.score - a.score).slice(0, 50);
+
+  if (filtered.length === 0) {
+    el.innerHTML = '<p class="lb-empty">No scores yet for this topic. Be the first!</p>';
+    return;
+  }
+
+  const myName = localStorage.getItem('lbName');
+  const rankEmoji = ['🥇', '🥈', '🥉'];
+  const rowClass = ['lb-gold', 'lb-silver', 'lb-bronze'];
+
+  let html = `<table class="lb-table">
+    <thead><tr>
+      <th>#</th><th>Name</th><th>Topic</th>
+      <th style="text-align:right">Score</th>
+      <th style="text-align:right">%</th>
+      <th>Date</th>
+    </tr></thead><tbody>`;
+
+  filtered.forEach((s, i) => {
+    const isMe = myName && s.name === myName;
+    const rc = i < 3 ? rowClass[i] : '';
+    const badge = i < 3 ? rankEmoji[i] : (i + 1);
+    html += `<tr class="${rc}${isMe ? ' lb-me' : ''}">
+      <td class="lb-rank-cell">${badge}</td>
+      <td class="lb-name-cell">${esc(s.name)}${isMe ? ' <span style="color:var(--accent);font-size:0.65rem;">(you)</span>' : ''}</td>
+      <td class="lb-topic-cell">${esc(s.topic)}</td>
+      <td class="lb-score-cell">${s.score}/${s.total}</td>
+      <td class="lb-pct-cell" style="color:${pctColor(s.pct)}">${s.pct}%</td>
+      <td class="lb-date-cell">${s.date || ''}</td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+
+  if (JSONBIN_BIN_ID === 'YOUR_BIN_ID_HERE') {
+    html += `<p style="font-size:0.7rem;color:var(--text-faint);font-style:italic;margin-top:0.5rem;">
+      ⚠ Showing demo data. See comments in the code to set up your free JSONBin leaderboard.</p>`;
+  }
+
+  el.innerHTML = html;
+}
+
+function pctColor(pct) {
+  return pct >= 95 ? '#38bdf8' : pct >= 85 ? '#22d3ee' : pct >= 75 ? '#86efac' : pct >= 60 ? '#f59e0b' : '#94a3b8';
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Modal controls ───────────────────────────────────────
+function closeModal() {
+  document.getElementById('nameModal').classList.remove('open');
+  pendingScore = null;
+  showLeaderboard();
+}
+
+async function submitScore() {
+  const nameEl = document.getElementById('nameInput');
+  const name = nameEl.value.trim() || 'Anonymous';
+  localStorage.setItem('lbName', name);
+  document.getElementById('nameModal').classList.remove('open');
+
+  if (pendingScore) {
+    const entry = { ...pendingScore, name, date: new Date().toISOString().slice(0,10) };
+    pendingScore = null;
+    const existing = await fetchScores();
+    if (existing !== null) {
+      existing.push(entry);
+      // keep only top 200 to avoid huge bins
+      const trimmed = [...existing].sort((a,b) => b.pct-a.pct).slice(0,200);
+      await saveScores(trimmed);
+    }
+  }
+  showLeaderboard();
+}
+
 buildGrid();
 </script>
 </body>
