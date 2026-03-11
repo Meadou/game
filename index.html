@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Software Engineering & Scrum Reviewer Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#07090f;--bg2:#0d1117;--bg3:#161b26;--bg4:#1e2536;
+  --accent:#38bdf8;--accent2:#0284c7;--green-a:#22d3ee;
+  --gold:#f59e0b;--rose:#f472b6;--lime:#86efac;
+  --text:#e2e8f0;--text-dim:#94a3b8;--text-faint:#3d4f6b;
+  --border:#1e2d45;--border2:#2a3f5f;
+  --green:#22c55e;--green-bg:#071a0f;--green-b:#1a4a2a;
+  --red:#ef4444;--red-bg:#1a0707;--red-b:#4a1a1a;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-start;
+  padding:2rem 1rem;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 40% at 10% 0%,#0c2a4422 0%,transparent 65%),
+    radial-gradient(ellipse 50% 35% at 90% 100%,#0a1f3322 0%,transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 50%,#050d1a88 0%,transparent 70%);
+}
+/* grid lines */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(56,189,248,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(56,189,248,0.025) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+#app{position:relative;z-index:1;width:100%;max-width:740px;}
+
+/* ═══ SCREENS ═══ */
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* ═══ START ═══ */
+#start-screen{text-align:center;padding:1rem 0 3rem;}
+.crest{
+  font-family:'Share Tech Mono',monospace;
+  font-size:clamp(2.2rem,7vw,4.5rem);
+  letter-spacing:0.06em;
+  background:linear-gradient(135deg,var(--accent) 0%,var(--green-a) 50%,var(--lime) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 28px rgba(56,189,248,0.45));
+  margin-bottom:0.5rem;animation:fadeUp 0.7s ease both;
+}
+.main-title{
+  font-family:'Share Tech Mono',monospace;
+  font-size:clamp(0.9rem,2.8vw,1.5rem);font-weight:400;
+  letter-spacing:0.1em;color:var(--text);
+  text-transform:uppercase;margin-bottom:0.4rem;
+  animation:fadeUp 0.7s 0.1s ease both;
+}
+.sub-title{
+  font-size:clamp(0.65rem,1.6vw,0.82rem);color:var(--text-dim);
+  letter-spacing:0.22em;text-transform:uppercase;
+  margin-bottom:0.5rem;animation:fadeUp 0.7s 0.15s ease both;
+}
+.tagline{
+  font-size:0.88rem;color:var(--text-faint);font-style:italic;
+  margin-bottom:2rem;animation:fadeUp 0.7s 0.2s ease both;
+}
+.rule{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--border2),transparent);margin:1.5rem 0;animation:fadeUp 0.7s 0.25s ease both;}
+
+/* topic pills grid */
+.civ-grid{
+  display:flex;flex-wrap:wrap;gap:0.5rem;
+  justify-content:center;margin-bottom:1.5rem;
+  animation:fadeUp 0.7s 0.3s ease both;
+}
+.civ-btn{
+  padding:0.38rem 0.9rem;border:1px solid var(--border2);
+  background:transparent;color:var(--text-faint);
+  cursor:pointer;font-size:0.7rem;letter-spacing:0.1em;
+  text-transform:uppercase;font-family:'Share Tech Mono',monospace;
+  transition:all 0.2s;border-radius:3px;
+}
+.civ-btn:hover{border-color:var(--accent);color:var(--text-dim);}
+.civ-btn.sel{border-color:var(--accent);background:rgba(56,189,248,0.08);color:var(--accent);}
+.count-text{color:var(--text-faint);font-size:0.82rem;font-style:italic;margin-bottom:1.8rem;animation:fadeUp 0.7s 0.35s ease both;font-family:'Share Tech Mono',monospace;}
+.start-btn{
+  padding:0.95rem 3.5rem;background:transparent;
+  border:2px solid var(--accent);color:var(--accent);
+  font-family:'Share Tech Mono',monospace;font-size:0.85rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.3s;
+  animation:fadeUp 0.7s 0.4s ease both;
+  box-shadow:0 0 0 rgba(56,189,248,0);
+}
+.start-btn:hover{background:var(--accent2);color:#fff;border-color:var(--accent2);box-shadow:0 0 30px rgba(56,189,248,0.25);}
+
+/* topic tag colors */
+.civ-tag[data-civ="SE Basics"]{color:#38bdf8;border-color:#38bdf855;}
+.civ-tag[data-civ="SW Products"]{color:#22d3ee;border-color:#22d3ee55;}
+.civ-tag[data-civ="Ethics"]{color:#f472b6;border-color:#f472b655;}
+.civ-tag[data-civ="Case Studies"]{color:#86efac;border-color:#86efac55;}
+.civ-tag[data-civ="Agile"]{color:#f59e0b;border-color:#f59e0b55;}
+.civ-tag[data-civ="Scrum Roles"]{color:#fb923c;border-color:#fb923c55;}
+.civ-tag[data-civ="Scrum Ops"]{color:#c084fc;border-color:#c084fc55;}
+.civ-tag[data-civ="Artifacts"]{color:#4ade80;border-color:#4ade8055;}
+.civ-tag[data-civ="SW Process"]{color:#fbbf24;border-color:#fbbf2455;}
+.civ-tag[data-civ="Class Notes"]{color:#a3e635;border-color:#a3e63555;}
+
+/* ═══ QUIZ ═══ */
+.quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+.q-counter{font-size:0.68rem;letter-spacing:0.2em;color:var(--text-faint);text-transform:uppercase;font-family:'Share Tech Mono',monospace;}
+.q-civ{font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;font-family:'Share Tech Mono',monospace;padding:0.18rem 0.65rem;border:1px solid;}
+.q-score{font-size:0.78rem;color:var(--gold);font-family:'Share Tech Mono',monospace;}
+.progress-bar{width:100%;height:3px;background:var(--bg3);margin-bottom:2rem;border-radius:2px;}
+.progress-fill{height:100%;background:linear-gradient(to right,var(--accent2),var(--accent));transition:width 0.5s ease;border-radius:2px;}
+.question-box{
+  background:var(--bg2);border:1px solid var(--border);
+  padding:2rem 1.8rem;margin-bottom:1.3rem;position:relative;overflow:hidden;
+}
+.question-box::before{
+  content:'';position:absolute;top:0;right:0;
+  width:120px;height:120px;
+  background:radial-gradient(circle,rgba(56,189,248,0.05) 0%,transparent 70%);
+  pointer-events:none;
+}
+.q-accent{position:absolute;top:0;left:0;width:3px;height:100%;}
+.q-text{font-size:clamp(0.92rem,2.2vw,1.1rem);line-height:1.8;color:var(--text);padding-left:0.8rem;}
+.choices{display:grid;gap:0.6rem;margin-bottom:1.6rem;}
+.choice-btn{
+  padding:0.82rem 1.3rem;background:var(--bg2);
+  border:1px solid var(--border);color:var(--text-dim);
+  cursor:pointer;text-align:left;font-size:0.87rem;
+  line-height:1.5;font-family:'Inter',sans-serif;
+  transition:all 0.18s;display:flex;align-items:center;gap:0.9rem;
+}
+.choice-btn:hover:not(:disabled){border-color:var(--accent);background:var(--bg3);}
+.choice-btn:disabled{cursor:default;}
+.choice-btn.correct{background:var(--green-bg);border-color:var(--green);color:#6ee7a0;}
+.choice-btn.wrong{background:var(--red-bg);border-color:var(--red);color:#fca5a5;}
+.clet{min-width:1.3rem;color:var(--text-faint);font-size:0.68rem;font-family:'Share Tech Mono',monospace;}
+.chk{margin-left:auto;}
+.feedback-area{text-align:center;}
+.fb-msg{font-size:0.88rem;letter-spacing:0.04em;margin-bottom:1.3rem;font-style:italic;}
+.fb-msg.correct{color:#6ee7a0;}
+.fb-msg.wrong{color:#fca5a5;}
+.next-btn{
+  padding:0.72rem 2.5rem;background:transparent;
+  border:2px solid var(--accent);color:var(--accent);
+  font-family:'Share Tech Mono',monospace;font-size:0.78rem;
+  letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;
+  transition:all 0.25s;
+}
+.next-btn:hover{background:var(--accent2);color:#fff;border-color:var(--accent2);}
+
+/* ═══ RESULTS ═══ */
+#results-screen{text-align:center;}
+.res-label{font-size:0.65rem;letter-spacing:0.3em;color:var(--text-faint);text-transform:uppercase;font-family:'Share Tech Mono',monospace;margin-bottom:1rem;}
+.res-pct{font-size:clamp(3.5rem,10vw,6rem);font-family:'Share Tech Mono',monospace;text-shadow:0 0 30px currentColor;margin-bottom:0.3rem;}
+.res-rank{font-family:'Share Tech Mono',monospace;font-size:1.3rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.5rem;}
+.res-sub{color:var(--text-dim);font-size:0.95rem;margin-bottom:1.3rem;font-style:italic;}
+.res-bar-wrap{width:100%;height:4px;background:var(--bg3);border-radius:2px;margin-bottom:2.5rem;}
+.res-bar{height:100%;border-radius:2px;transition:width 1.2s ease;}
+.play-again-btn{
+  padding:0.78rem 2.5rem;background:transparent;
+  border:2px solid var(--accent);color:var(--accent);
+  font-family:'Share Tech Mono',monospace;font-size:0.78rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.25s;margin-bottom:3rem;
+}
+.play-again-btn:hover{background:var(--accent2);color:#fff;border-color:var(--accent2);}
+.review-hdr{
+  font-size:0.63rem;letter-spacing:0.2em;color:var(--text-faint);
+  text-transform:uppercase;font-family:'Share Tech Mono',monospace;
+  border-bottom:1px solid var(--bg3);padding-bottom:0.5rem;margin-bottom:0.9rem;text-align:left;
+}
+.rev-item{padding:0.9rem;margin-bottom:0.6rem;text-align:left;border-left-width:3px;border-left-style:solid;}
+.rev-item.correct{background:var(--green-bg);border:1px solid var(--green-b);border-left:3px solid var(--green);}
+.rev-item.wrong{background:var(--red-bg);border:1px solid var(--red-b);border-left:3px solid var(--red);}
+.rev-q{font-size:0.8rem;color:#bae6fd;margin-bottom:0.3rem;line-height:1.5;}
+.rev-your{font-size:0.77rem;}
+.rev-your.correct{color:#6ee7a0;}
+.rev-your.wrong{color:#fca5a5;}
+.rev-ans{font-size:0.77rem;color:#6ee7a0;margin-top:0.2rem;}
+
+.topic-sep{width:100%;text-align:center;font-size:0.58rem;letter-spacing:0.25em;color:var(--text-faint);text-transform:uppercase;font-family:'Share Tech Mono',monospace;margin:0.4rem 0 0.1rem;flex-basis:100%;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeUp 0.32s ease both;}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- START -->
+<div id="start-screen" class="screen active">
+  <div class="crest">&lt;/SE&gt;</div>
+  <h1 class="main-title">Software Engineering & Scrum</h1>
+  <p class="sub-title">Interactive Quiz Reviewer</p>
+  <p class="tagline">Ch. 1 Introduction · Process Models · Agile · Scrum Framework · Ethics · Case Studies · Class Notes</p>
+  <div class="rule"></div>
+  <div class="civ-grid" id="civGrid"></div>
+  <p class="count-text" id="countText"></p>
+  <button class="start-btn" onclick="startQuiz()">$ run quiz.exe</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-header">
+    <span class="q-counter" id="qCounter"></span>
+    <span class="q-civ civ-tag" id="qCiv"></span>
+    <span class="q-score" id="qScore"></span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+  <div class="question-box">
+    <div class="q-accent" id="qAccent"></div>
+    <p class="q-text" id="qText"></p>
+  </div>
+  <div class="choices" id="choicesBox"></div>
+  <div class="feedback-area" id="fbArea" style="display:none;">
+    <p class="fb-msg" id="fbMsg"></p>
+    <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results-screen" class="screen">
+  <p class="res-label">// Quiz Complete</p>
+  <div class="res-pct" id="resPct"></div>
+  <div class="res-rank" id="resRank"></div>
+  <p class="res-sub" id="resSub"></p>
+  <div class="res-bar-wrap"><div class="res-bar" id="resBar"></div></div>
+  <button class="play-again-btn" onclick="goHome()">$ restart</button>
+  <div class="review-hdr">// Review Answers</div>
+  <div id="reviewList"></div>
+</div>
+
+</div>
+<script>
+const CIV_COLORS={
+  "SE Basics":"#38bdf8","SW Products":"#22d3ee","Ethics":"#f472b6",
+  "Case Studies":"#86efac","Agile":"#f59e0b",
+  "Scrum Roles":"#fb923c","Scrum Ops":"#c084fc","Artifacts":"#4ade80",
+  "SW Process":"#fbbf24","Class Notes":"#a3e635"
+};
+
+const ALL=[
+// ════════════════ SE BASICS ════════════════
+{civ:"SE Basics",q:"What is Software Engineering primarily concerned with?",a:"All aspects of software production from specification to maintenance",choices:["Writing code as fast as possible","Designing computer hardware","All aspects of software production from specification to maintenance","Managing databases and networks"]},
+{civ:"SE Basics",q:"Why are the economies of all developed nations dependent on software?",a:"More and more systems are software controlled and software expenditure represents a significant fraction of GNP",choices:["Software is cheap and easy to produce","Only governments use software systems","More and more systems are software controlled and software expenditure represents a significant fraction of GNP","Software replaced all manual labor"]},
+{civ:"SE Basics",q:"What is the difference between Software Engineering and Computer Science?",a:"Computer Science focuses on theory and fundamentals; Software Engineering is concerned with the practicalities of developing useful software",choices:["They are the same discipline","Computer Science focuses on theory and fundamentals; Software Engineering is concerned with the practicalities of developing useful software","Software Engineering focuses on hardware design","Computer Science is only for academics"]},
+{civ:"SE Basics",q:"What percentage of software costs are roughly development costs?",a:"60% development, 40% testing",choices:["80% development, 20% testing","50% development, 50% testing","60% development, 40% testing","70% development, 30% testing"]},
+{civ:"SE Basics",q:"Which of the following is a key challenge facing software engineering?",a:"Coping with increasing diversity, reduced delivery times, and developing trustworthy software",choices:["Reducing the number of programmers","Building only small systems","Coping with increasing diversity, reduced delivery times, and developing trustworthy software","Avoiding use of the internet"]},
+{civ:"SE Basics",q:"What are the four fundamental software engineering activities?",a:"Specification, development, validation, and evolution",choices:["Design, coding, testing, deployment","Specification, development, validation, and evolution","Planning, budgeting, hiring, firing","Analysis, design, implementation, documentation"]},
+{civ:"SE Basics",q:"What does 'Software Evolution' mean?",a:"Modifying software to reflect changing customer and market requirements",choices:["Upgrading the hardware that runs the software","Rewriting software from scratch","Modifying software to reflect changing customer and market requirements","Training users on new software"]},
+{civ:"SE Basics",q:"Which of the four essential attributes of good software ensures it does not waste system resources?",a:"Efficiency",choices:["Maintainability","Dependability","Acceptability","Efficiency"]},
+{civ:"SE Basics",q:"What does 'Maintainability' mean as a software attribute?",a:"Software should be written so it can evolve to meet changing customer needs",choices:["The software runs without crashing","Software should be written so it can evolve to meet changing customer needs","The software is protected from hackers","The software is easy to learn for new users"]},
+{civ:"SE Basics",q:"Why is it usually cheaper in the long run to use software engineering methods?",a:"The majority of costs come from changing software after it has gone into use, which SE methods handle better",choices:["SE methods eliminate the need for testing","SE methods reduce the number of developers needed","The majority of costs come from changing software after it has gone into use, which SE methods handle better","SE methods prevent all bugs from occurring"]},
+{civ:"SE Basics",q:"What is 'Heterogeneity' as a general issue affecting software?",a:"Systems required to operate as distributed systems across networks with different types of computers and mobile devices",choices:["Software written in multiple programming languages","Systems required to operate as distributed systems across networks with different types of computers and mobile devices","Having multiple development teams","Using different databases simultaneously"]},
+{civ:"SE Basics",q:"What does the 'Scale' issue in software engineering refer to?",a:"Software must be developed across a very wide range of scales, from tiny embedded systems to Internet-scale cloud systems",choices:["The size of the development team","Software must be developed across a very wide range of scales, from tiny embedded systems to Internet-scale cloud systems","The amount of code written per day","The number of users of a system"]},
+{civ:"SE Basics",q:"Which software engineering fundamental principle involves not writing new software when existing software can be used?",a:"Software reuse",choices:["Software evolution","Software validation","Software reuse","Software specification"]},
+{civ:"SE Basics",q:"What is Cloud Computing in the context of Internet software engineering?",a:"An approach where applications run remotely and users pay according to use rather than buying software",choices:["Storing files on a USB drive","Writing software for weather prediction","An approach where applications run remotely and users pay according to use rather than buying software","Developing software for airline systems"]},
+{civ:"SE Basics",q:"What type of application system runs on a local computer and includes all necessary functionality without needing a network?",a:"Stand-alone application",choices:["Embedded control system","Interactive transaction-based application","Stand-alone application","Batch processing system"]},
+{civ:"SE Basics",q:"What are Embedded Control Systems?",a:"Software control systems that control and manage hardware devices",choices:["Systems that run on remote servers","Software control systems that control and manage hardware devices","Systems for processing data in large batches","Systems for entertainment purposes"]},
+
+// ════════════════ SW PRODUCTS ════════════════
+{civ:"SW Products",q:"What is the difference between Generic and Customized software products?",a:"Generic products are sold to any customer; customized products are commissioned by a specific customer for their own needs",choices:["Generic products are cheaper; customized ones are expensive","Generic products are sold to any customer; customized products are commissioned by a specific customer for their own needs","Generic products have more features; customized ones are simpler","There is no meaningful difference"]},
+{civ:"SW Products",q:"Who owns the specification for a Generic software product?",a:"The software developer",choices:["The customer","The software developer","The government","A third-party auditor"]},
+{civ:"SW Products",q:"An air traffic control system is an example of which type of software product?",a:"Customized product",choices:["Generic product","Open-source product","Customized product","Entertainment system"]},
+{civ:"SW Products",q:"Which application type processes large numbers of individual inputs to create corresponding outputs?",a:"Batch processing systems",choices:["Stand-alone applications","Embedded control systems","Batch processing systems","Entertainment systems"]},
+{civ:"SW Products",q:"What is a 'System of Systems'?",a:"A system composed of a number of other software systems",choices:["A very large monolithic application","A network of computers","A system composed of a number of other software systems","A distributed database"]},
+{civ:"SW Products",q:"Which attribute of good software means it must be understandable, usable, and compatible with other systems?",a:"Acceptability",choices:["Efficiency","Maintainability","Dependability","Acceptability"]},
+{civ:"SW Products",q:"What does web-based software engineering emphasize as the dominant approach for constructing systems?",a:"Software reuse — assembling systems from pre-existing components",choices:["Writing everything from scratch","Software reuse — assembling systems from pre-existing components","Avoiding incremental development","Using only proprietary technologies"]},
+{civ:"SW Products",q:"What are Integrated Services in iLearn?",a:"Services that offer an API and can be accessed by other services through direct communication",choices:["Services accessed only through a browser","Services that require user login each time","Services that offer an API and can be accessed by other services through direct communication","Services that run offline only"]},
+{civ:"SW Products",q:"What type of system collects data from sensors in its environment and sends it to other systems for processing?",a:"Data collection system",choices:["Batch processing system","Entertainment system","Data collection system","System of systems"]},
+
+// ════════════════ ETHICS ════════════════
+{civ:"Ethics",q:"What does ethical behaviour in software engineering involve beyond upholding the law?",a:"Following a set of principles that are morally correct",choices:["Making as much profit as possible","Following a set of principles that are morally correct","Keeping all information secret","Avoiding all legal obligations"]},
+{civ:"Ethics",q:"What is the professional responsibility of 'Competence' for software engineers?",a:"Engineers should not misrepresent their level of competence or knowingly accept work outside their competence",choices:["Engineers must know every programming language","Engineers should always accept any project offered","Engineers should not misrepresent their level of competence or knowingly accept work outside their competence","Engineers must have a PhD"]},
+{civ:"Ethics",q:"What does the 'Computer Misuse' professional responsibility cover?",a:"Software engineers should not use technical skills to misuse other people's computers, from trivial acts to spreading viruses",choices:["Using unlicensed software for personal projects","Software engineers should not use technical skills to misuse other people's computers, from trivial acts to spreading viruses","Failing to update software regularly","Not writing documentation"]},
+{civ:"Ethics",q:"How many principles are in the ACM/IEEE Code of Ethics?",a:"Eight",choices:["Four","Six","Eight","Ten"]},
+{civ:"Ethics",q:"Which ACM/IEEE ethical principle requires software engineers to act in the best interests of their client and employer?",a:"CLIENT AND EMPLOYER",choices:["PUBLIC","PRODUCT","CLIENT AND EMPLOYER","MANAGEMENT"]},
+{civ:"Ethics",q:"Which ACM/IEEE ethical principle states software engineers shall act consistently with the public interest?",a:"PUBLIC",choices:["PUBLIC","SELF","COLLEAGUES","PROFESSION"]},
+{civ:"Ethics",q:"What does the SELF principle in ACM/IEEE Code of Ethics require?",a:"Software engineers shall participate in lifelong learning and promote an ethical approach to the profession",choices:["Engineers must teach others only","Engineers should focus only on their own projects","Software engineers shall participate in lifelong learning and promote an ethical approach to the profession","Engineers should avoid professional societies"]},
+{civ:"Ethics",q:"Which of these is an example of an ethical dilemma for a software engineer?",a:"Your employer releases a safety-critical system without finishing testing",choices:["Choosing between two programming languages","Deciding on a project management tool","Your employer releases a safety-critical system without finishing testing","Selecting a software license type"]},
+{civ:"Ethics",q:"What is the role of professional societies like ACM and IEEE in software engineering ethics?",a:"They publish codes of conduct which set out the standards of behaviour expected of their members",choices:["They set software prices","They publish codes of conduct which set out the standards of behaviour expected of their members","They certify all software products","They employ all software engineers"]},
+{civ:"Ethics",q:"The 'Intellectual Property Rights' professional responsibility means engineers should:",a:"Be aware of local laws on patents/copyright and ensure employers' intellectual property is protected",choices:["Always share all code publicly","Be aware of local laws on patents/copyright and ensure employers' intellectual property is protected","Avoid using any third-party libraries","Copy competitors' code freely"]},
+
+// ════════════════ CASE STUDIES ════════════════
+{civ:"Case Studies",q:"What makes the Insulin Pump a safety-critical system?",a:"Low blood sugars can lead to brain malfunction, coma and death; high blood sugars cause long-term eye and kidney damage",choices:["It is an expensive device","It is difficult to manufacture","Low blood sugars can lead to brain malfunction, coma and death; high blood sugars cause long-term eye and kidney damage","It connects to the internet"]},
+{civ:"Case Studies",q:"What does the Insulin Pump control system do?",a:"Collects data from a blood sugar sensor, calculates required insulin, and sends signals to a micro-pump",choices:["Monitors heart rate and blood pressure","Collects data from a blood sugar sensor, calculates required insulin, and sends signals to a micro-pump","Dispenses medication based on time of day","Tracks patient movement and activity"]},
+{civ:"Case Studies",q:"What is the Mentcare system?",a:"A patient information system that maintains records about patients with mental health problems and their treatments",choices:["A general hospital management system","A patient information system that maintains records about patients with mental health problems and their treatments","A pharmaceutical inventory system","A mental health research database"]},
+{civ:"Case Studies",q:"What are the two key goals of the Mentcare system?",a:"Generate management information for health managers and provide medical staff with timely patient treatment information",choices:["Track medication inventory and bill patients","Generate management information for health managers and provide medical staff with timely patient treatment information","Monitor patient location and manage appointments","Store research data and publish reports"]},
+{civ:"Case Studies",q:"What is a major privacy concern in the Mentcare system?",a:"Patient information must be confidential and only disclosed to authorised medical staff and the patient themselves",choices:["The system is too slow to access","Patient information must be confidential and only disclosed to authorised medical staff and the patient themselves","The system stores too much data","Patients can change their own records"]},
+{civ:"Case Studies",q:"What does the Wilderness Weather Station collect?",a:"Temperature, pressure, sunshine, rainfall, wind speed and wind direction data from remote areas",choices:["Soil composition and plant growth data","Temperature, pressure, sunshine, rainfall, wind speed and wind direction data from remote areas","Air quality and pollution levels","Satellite imagery and terrain data"]},
+{civ:"Case Studies",q:"What is iLearn?",a:"A digital learning environment framework in which tools and applications for learning may be embedded",choices:["A school management software","A digital learning environment framework in which tools and applications for learning may be embedded","A virtual reality classroom system","An online examination platform"]},
+{civ:"Case Studies",q:"What type of system architecture does iLearn use?",a:"Service-oriented system where all components are considered replaceable services",choices:["Monolithic single-server architecture","Service-oriented system where all components are considered replaceable services","Peer-to-peer network","Client-server with thick clients"]},
+{civ:"Case Studies",q:"What are Configuration Services in iLearn?",a:"Services used to adapt the environment with specific application services and define how services are shared",choices:["Services that store user grades","Services used to adapt the environment with specific application services and define how services are shared","Services that provide email and conferencing","Services that host educational content"]},
+
+// ════════════════ AGILE ════════════════
+{civ:"Agile",q:"Why do Agile proponents believe current software development processes need to change?",a:"They are too heavyweight, too rigid, and have difficulty with incomplete or changing requirements",choices:["They produce too much documentation","They are too heavyweight, too rigid, and have difficulty with incomplete or changing requirements","They cost too little","They involve too few developers"]},
+{civ:"Agile",q:"What are the four values in the Agile Manifesto?",a:"Individuals & interactions, working software, customer collaboration, and responding to change — over their counterparts",choices:["Planning, documentation, contract, rigid process","Speed, cost, quality, and scope","Individuals & interactions, working software, customer collaboration, and responding to change — over their counterparts","Design, coding, testing, deployment"]},
+{civ:"Agile",q:"Agile methods are described as which of the following?",a:"Lightweight and people-based rather than plan-based",choices:["Heavyweight and document-driven","Lightweight and people-based rather than plan-based","Rigid and process-focused","Expensive and complex"]},
+{civ:"Agile",q:"What organization developed the Agile Manifesto?",a:"The Agile Alliance",choices:["IEEE","ACM","The Agile Alliance","ISO"]},
+{civ:"Agile",q:"What does Scrum stand for?",a:"Scrum is NOT an acronym — it is named after the sport of Rugby",choices:["Systematic Collaborative Rapid Unified Method","Software Continuous Rapid Update Model","Scrum is NOT an acronym — it is named after the sport of Rugby","Simple Concurrent Requirements and Updates Model"]},
+{civ:"Agile",q:"According to Jeff Sutherland, what kind of process does Scrum assume software development to be?",a:"An unpredictable, complicated process that can only be roughly described as an overall progression",choices:["A simple, predictable linear process","A process that follows a strict waterfall model","An unpredictable, complicated process that can only be roughly described as an overall progression","A well-defined mathematical process"]},
+{civ:"Agile",q:"Who was the first person to apply Scrum concepts to software development, and in what year?",a:"Jeff Sutherland in 1993",choices:["Ken Schwaber in 1990","Mike Beedle in 1995","Jeff Sutherland in 1993","Jim Highsmith in 1998"]},
+{civ:"Agile",q:"What is the analogy between Scrum (Rugby) and software development?",a:"Just as a rugby team works together to move the ball forward, the development team works together to deliver quality software",choices:["Rugby is a rough sport; software development is also rough","Just as a rugby team works together to move the ball forward, the development team works together to deliver quality software","Rugby has no rules; Scrum has no rules either","Rugby teams are large; software teams should be large too"]},
+{civ:"Agile",q:"When should you AVOID using Scrum?",a:"When teams are more than 10, cost is a major issue, there's no management support, or the corporate culture isn't flexible",choices:["When requirements are unclear","When work is delivered incrementally","When the project is important","When teams are more than 10, cost is a major issue, there's no management support, or the corporate culture isn't flexible"]},
+{civ:"Agile",q:"When is Scrum BEST used?",a:"When requirements are not clearly defined, work is delivered incrementally, and the organization is willing to do anything for success",choices:["When requirements are perfectly specified upfront","When the team is large and distributed","When requirements are not clearly defined, work is delivered incrementally, and the organization is willing to do anything for success","When cost is the primary concern"]},
+{civ:"Agile",q:"What is a major disadvantage of Scrum?",a:"'Undisciplined hacking' due to lack of written documentation and potential violation of responsibility",choices:["Too much paperwork","Too many team members required","'Undisciplined hacking' due to lack of written documentation and potential violation of responsibility","Sprints are too long"]},
+{civ:"Agile",q:"What is XP (Extreme Programming) known for in the context of Agile?",a:"It is the most popular Agile method and can be combined with Scrum",choices:["It focuses on waterfall planning","It requires 100-person teams","It is the most popular Agile method and can be combined with Scrum","It avoids all forms of testing"]},
+
+// ════════════════ SCRUM ROLES ════════════════
+{civ:"Scrum Roles",q:"What are the three roles in the Scrum Framework?",a:"Product Owner, ScrumMaster, and Team",choices:["Manager, Developer, Tester","Product Owner, ScrumMaster, and Team","CEO, CTO, Engineer","Project Manager, Designer, Developer"]},
+{civ:"Scrum Roles",q:"What is the Product Owner's primary responsibility?",a:"Define product features, decide release dates, prioritize features by market value, and accept or reject work results",choices:["Write all the code for the product","Run daily standup meetings","Define product features, decide release dates, prioritize features by market value, and accept or reject work results","Manage team conflicts and HR issues"]},
+{civ:"Scrum Roles",q:"What is the Scrum Master responsible for?",a:"Representing management, enacting Scrum values, removing impediments, and shielding the team from external interference",choices:["Writing user stories and requirements","Testing all delivered software","Representing management, enacting Scrum values, removing impediments, and shielding the team from external interference","Deploying software to production"]},
+{civ:"Scrum Roles",q:"What is the ideal size of a Scrum Team?",a:"Typically 5–10 people; 6 is ideal",choices:["2–3 people","20–30 people","Typically 5–10 people; 6 is ideal","50+ people"]},
+{civ:"Scrum Roles",q:"What does it mean that Scrum Teams are 'cross-functional'?",a:"Teams include members with different skills such as QA, programmers, and UI designers",choices:["Teams work across multiple companies","Teams include members with different skills such as QA, programmers, and UI designers","Teams rotate members every sprint","Teams work on multiple projects simultaneously"]},
+{civ:"Scrum Roles",q:"When can team membership change in Scrum?",a:"Only between sprints, not during a sprint",choices:["At any time during the sprint","Only at the start of the project","Only between sprints, not during a sprint","Never; once set the team is permanent"]},
+{civ:"Scrum Roles",q:"In the Daily Scrum, who is allowed to speak (i.e., 'pigs can talk')?",a:"Only the Scrum Team members (pigs); others (chickens) are invited but cannot talk",choices:["Only the Scrum Master","Everyone including customers and management","Only the Scrum Team members (pigs); others (chickens) are invited but cannot talk","Only senior developers"]},
+{civ:"Scrum Roles",q:"What is the Product Owner's role regarding the Product Backlog?",a:"The Product Owner manages, owns, and prioritizes the Product Backlog",choices:["The Scrum Master owns the backlog","The whole team votes on backlog priority","The Product Owner manages, owns, and prioritizes the Product Backlog","External stakeholders control the backlog"]},
+
+// ════════════════ SCRUM OPS ════════════════
+{civ:"Scrum Ops",q:"What are the four Scrum Ceremonies?",a:"Sprint Planning Meeting, Sprint, Daily Scrum, and Sprint Review Meeting",choices:["Kickoff, Design, Code, Deploy","Sprint Planning Meeting, Sprint, Daily Scrum, and Sprint Review Meeting","Backlog Grooming, Estimation, Review, Retrospective","Stand-up, Sit-down, Lunch, Wrap-up"]},
+{civ:"Scrum Ops",q:"How long does a Sprint typically last?",a:"One month (+/- a week or two), with a constant duration for better rhythm",choices:["One week exactly","One day","One month (+/- a week or two), with a constant duration for better rhythm","Six months"]},
+{civ:"Scrum Ops",q:"What is the key rule about changes during a Sprint?",a:"NO outside influence can interfere with the Scrum team during the Sprint",choices:["Changes are welcomed at any time","The Product Owner can add tasks mid-sprint","NO outside influence can interfere with the Scrum team during the Sprint","Only the Scrum Master can approve changes mid-sprint"]},
+{civ:"Scrum Ops",q:"What are the three questions answered at the Daily Scrum?",a:"What did you do yesterday? What will you do today? What obstacles are in your way?",choices:["Who are you? What project are you on? What is your salary?","What did you do yesterday? What will you do today? What obstacles are in your way?","What is the Sprint goal? What is the deadline? What is the budget?","How many hours did you work? What bugs did you fix? What is next?"]},
+{civ:"Scrum Ops",q:"How long does the Daily Scrum meeting last?",a:"15 minutes, standing up",choices:["1 hour","15 minutes, standing up","30 minutes","45 minutes"]},
+{civ:"Scrum Ops",q:"What is the purpose of the Sprint Review Meeting?",a:"The team presents/demos what it accomplished during the sprint to customers, management, and other engineers",choices:["To plan the next sprint","To resolve team conflicts","The team presents/demos what it accomplished during the sprint to customers, management, and other engineers","To update the product backlog priorities"]},
+{civ:"Scrum Ops",q:"What happens in a Sprint Retrospective?",a:"The Scrum Team answers three questions: What to Start, Stop, and Continue doing",choices:["The team plans the next sprint backlog","New requirements are added","The Scrum Team answers three questions: What to Start, Stop, and Continue doing","The Product Owner evaluates team performance"]},
+{civ:"Scrum Ops",q:"What is the 'Scrum of Scrums' (Meta-Scrum) used for?",a:"Scaling Scrum to large organizations with many teams, coordinated by meeting frequency based on team coupling",choices:["Running Scrum for very small teams","A daily meeting replacing the Sprint Review","Scaling Scrum to large organizations with many teams, coordinated by meeting frequency based on team coupling","A retrospective technique for failed sprints"]},
+{civ:"Scrum Ops",q:"What is a Pre-Project/Kickoff Meeting in Scrum?",a:"A special form of Sprint Planning Meeting held before the project begins",choices:["A meeting with all stakeholders after launch","The first daily standup","A special form of Sprint Planning Meeting held before the project begins","A meeting to close the project"]},
+{civ:"Scrum Ops",q:"According to Fred Brooks (The Mythical Man-Month), why is the Daily Scrum needed?",a:"'How does a project get to be a year late? One day at a time.' — to catch delays daily before they compound",choices:["To make team members feel included","To replace all other meetings","'How does a project get to be a year late? One day at a time.' — to catch delays daily before they compound","To document what everyone is doing"]},
+
+// ════════════════ ARTIFACTS ════════════════
+{civ:"Artifacts",q:"What are the three Scrum Artifacts?",a:"Product Backlog, Sprint Backlog, and Burndown Chart",choices:["User Stories, Tasks, and Bugs","Product Backlog, Sprint Backlog, and Burndown Chart","Requirements, Design Docs, and Test Plans","Gantt Chart, Risk Log, and Budget Sheet"]},
+{civ:"Artifacts",q:"What is the Product Backlog?",a:"A prioritized list of all desired work on the project, managed and owned by the Product Owner",choices:["A list of completed tasks","A prioritized list of all desired work on the project, managed and owned by the Product Owner","A list of bugs and defects","The team's daily task assignments"]},
+{civ:"Artifacts",q:"What is the Sprint Backlog?",a:"A subset of Product Backlog items that define the work for a specific Sprint, created only by Team members",choices:["A list of all future sprints","A subset of Product Backlog items that define the work for a specific Sprint, created only by Team members","The Product Owner's priority list","A record of completed sprints"]},
+{civ:"Artifacts",q:"What is the maximum number of tasks recommended in a Sprint Backlog?",a:"No more than 300 tasks",choices:["No more than 50 tasks","No more than 100 tasks","No more than 300 tasks","There is no limit"]},
+{civ:"Artifacts",q:"What should happen to a task that requires more than 16 hours in the Sprint Backlog?",a:"It should be broken down into smaller tasks",choices:["It should be removed from the sprint","It should be assigned to the most experienced developer","It should be broken down into smaller tasks","It should be carried over to the next sprint as-is"]},
+{civ:"Artifacts",q:"What does the Sprint Burndown Chart depict?",a:"Total Sprint Backlog hours remaining per day, ideally burning down to zero by sprint's end",choices:["The number of bugs fixed per day","Total Sprint Backlog hours remaining per day, ideally burning down to zero by sprint's end","Team members' productivity scores","Cost remaining in the project budget"]},
+{civ:"Artifacts",q:"What does the Release Burndown Chart show?",a:"Whether the release will be done on time, with sprints on x-axis and hours remaining on y-axis",choices:["Daily task completion per developer","Whether the release will be done on time, with sprints on x-axis and hours remaining on y-axis","A list of features completed per sprint","The team velocity over time"]},
+{civ:"Artifacts",q:"Who can update the Sprint Backlog during a Sprint?",a:"Only the Team — the Product Owner is not allowed to update it",choices:["Only the Scrum Master","The Product Owner and Scrum Master","Only the Team — the Product Owner is not allowed to update it","Anyone on the project including management"]},
+{civ:"Artifacts",q:"What are typically two types of work items combined in a Product Backlog?",a:"Story-based work (user features) and task-based work (technical improvements)",choices:["Bug reports and enhancement requests","Story-based work (user features) and task-based work (technical improvements)","High-priority and low-priority items","Frontend and backend tasks"]},
+{civ:"Artifacts",q:"What does the Product Burndown Chart represent?",a:"A 'big picture' view of project progress across all releases",choices:["A daily view of individual developer productivity","A weekly breakdown of sprint tasks","A 'big picture' view of project progress across all releases","The total number of bugs across all sprints"]},
+// ════════════════ SW PROCESS MODELS ════════════════
+{civ:"SW Process",q:"What is a Software Process Model?",a:"An abstract, structured representation of the SDLC that outlines stages, tasks, and sequences required to create software",choices:["A diagram showing how to code a program","An abstract, structured representation of the SDLC that outlines stages, tasks, and sequences required to create software","A document listing all software bugs","A hardware architecture diagram"]},
+{civ:"SW Process",q:"Which software development model is the most popular in the industry today?",a:"Agile Methodology",choices:["Waterfall Model","V-Model","Agile Methodology","Spiral Model"]},
+{civ:"SW Process",q:"What is Software Modeling?",a:"The process of creating abstract representations of a software system that serve as blueprints for structure, behavior, and functionality",choices:["Writing code for software modules","The process of creating abstract representations of a software system that serve as blueprints for structure, behavior, and functionality","Testing software for bugs","Designing the UI of an application"]},
+{civ:"SW Process",q:"The Agile model was proposed in the 1990s mainly to solve what problem?",a:"Customers requesting changes in the middle of software development, which was too costly and time-consuming under older models",choices:["Software being too cheap to develop","Lack of programming languages","Customers requesting changes in the middle of software development, which was too costly and time-consuming under older models","Too many developers on a project"]},
+{civ:"SW Process",q:"In the Agile model, how often is one iteration planned, developed, and deployed?",a:"Only one iteration at a time, typically completable in two to three weeks",choices:["All iterations are planned at once","Only one iteration at a time, typically completable in two to three weeks","One iteration per year","Iterations are not planned — they happen randomly"]},
+{civ:"SW Process",q:"What is the key rule of the Waterfall model regarding phases?",a:"A development phase cannot begin until the previous phase is completed — phases cannot overlap",choices:["Phases can run simultaneously","Testing happens before coding","A development phase cannot begin until the previous phase is completed — phases cannot overlap","Requirements are defined at the end"]},
+{civ:"SW Process",q:"In the Waterfall model, what does the output of one phase serve as?",a:"The input for the next phase",choices:["A deliverable sent to the customer","The input for the next phase","Documentation for the final review","A test case for QA"]},
+{civ:"SW Process",q:"The V-Model is also called what?",a:"Verification and Validation Model",choices:["Visual Development Model","Verification and Validation Model","Variable Iteration Model","Vertical Integration Model"]},
+{civ:"SW Process",q:"In the V-Model, what does the left side of the V represent?",a:"Development activities",choices:["Testing activities","Risk analysis","Development activities","Customer feedback"]},
+{civ:"SW Process",q:"What is the key characteristic of the V-Model that distinguishes it from Waterfall?",a:"Each development phase has a corresponding testing phase associated simultaneously in a V-shape",choices:["It has no testing phase","Each development phase has a corresponding testing phase associated simultaneously in a V-shape","Testing only happens at the very end","It uses sprints like Scrum"]},
+{civ:"SW Process",q:"In the Incremental Model, what is delivered in each increment?",a:"A working module or build that adds more functionality to the previous delivery",choices:["The complete finished software","A working module or build that adds more functionality to the previous delivery","Only documentation","A risk analysis report"]},
+{civ:"SW Process",q:"What must be true about requirements before starting an Incremental Model project?",a:"Requirements for the complex project should be clear before starting",choices:["Requirements are unknown until the end","Requirements for the complex project should be clear before starting","Requirements change with every increment","No requirements are needed"]},
+{civ:"SW Process",q:"What does RAD stand for in software development?",a:"Rapid Application Development",choices:["Random Agile Development","Rapid Application Development","Reusable Architecture Design","Recursive Approach to Development"]},
+{civ:"SW Process",q:"What is the main objective of the RAD Model?",a:"To reuse code, components, tools, and processes in project development",choices:["To write entirely new code for every feature","To reuse code, components, tools, and processes in project development","To avoid customer involvement","To replace all team members every sprint"]},
+{civ:"SW Process",q:"What does the RAD model do with large projects?",a:"Divides them into many small projects, each planned and completed individually",choices:["Handles them all at once in a single sprint","Divides them into many small projects, each planned and completed individually","Cancels them if too large","Requires a dedicated team of 100+"]},
+{civ:"SW Process",q:"What is the basic concept of the Iterative Model?",a:"Software is developed through repeated cycles, with only a small part developed at a time",choices:["All features are built in one go","Software is developed through repeated cycles, with only a small part developed at a time","Development happens without any feedback loops","No testing is performed until the end"]},
+{civ:"SW Process",q:"The Iterative Model was developed to overcome the drawbacks of which model?",a:"The classical Waterfall model",choices:["The Spiral model","The classical Waterfall model","The RAD model","The Prototype model"]},
+{civ:"SW Process",q:"The Spiral Model is also called what, and why?",a:"Meta Model — because it incorporates approaches from other SDLC models",choices:["Super Model — because it is the best","Meta Model — because it incorporates approaches from other SDLC models","Loop Model — because of its circular shape","Risk Model — because it only deals with risk"]},
+{civ:"SW Process",q:"Who first developed the Spiral Model, and in what year?",a:"Barry Boehm in 1986",choices:["Jeff Sutherland in 1993","Ken Schwaber in 1995","Barry Boehm in 1986","James Martin in 1991"]},
+{civ:"SW Process",q:"What is the most special feature of the Spiral Model?",a:"Risks are identified and resolved through prototyping in each phase (Risk Handling)",choices:["It has no testing phase","Risks are identified and resolved through prototyping in each phase (Risk Handling)","It uses fixed, unchangeable requirements","It delivers the complete product in one cycle"]},
+{civ:"SW Process",q:"What is the four-phase cycle of the Spiral Model?",a:"Planning → Risk Analysis → Engineering → Evaluation",choices:["Requirements → Design → Code → Test","Planning → Risk Analysis → Engineering → Evaluation","Ideate → Prototype → Test → Launch","Specification → Development → Validation → Evolution"]},
+{civ:"SW Process",q:"When is the Prototype Model most appropriately used?",a:"When requirements are not well-known upfront",choices:["When all requirements are perfectly defined","When requirements are not well-known upfront","Only for large enterprise projects","When the team is brand new"]},
+{civ:"SW Process",q:"What is the main downside of the Prototype Model?",a:"If end users are unsatisfied with the prototype, a new prototype must be created, consuming more time and money",choices:["It produces too much documentation","If end users are unsatisfied with the prototype, a new prototype must be created, consuming more time and money","It cannot be combined with other models","It requires a very large team"]},
+{civ:"SW Process",q:"What unique flexibility does the Prototype Model offer?",a:"It can be used alone or in combination with other SDLC models",choices:["It can replace all other models permanently","It can be used alone or in combination with other SDLC models","It only works for mobile applications","It requires no customer feedback at all"]},
+{civ:"SW Process",q:"Which model is BEST suited for large, complex, high-risk projects that need iterative risk analysis?",a:"Spiral Model",choices:["Waterfall Model","RAD Model","Spiral Model","Prototype Model"]},
+{civ:"SW Process",q:"Which model is best when you need to quickly reuse existing code and components for a small project?",a:"RAD Model",choices:["V-Model","Iterative Model","RAD Model","Waterfall Model"]},
+{civ:"SW Process",q:"How does Agile/Scrum development differ from the Waterfall model in terms of phase flow?",a:"Scrum phases overlap and are iterative; Waterfall is strictly sequential with no overlap",choices:["They both use sequential phases","Scrum phases overlap and are iterative; Waterfall is strictly sequential with no overlap","Waterfall is faster than Scrum","They both require fixed requirements"]},
+{civ:"SW Process",q:"Why do companies shift toward Agile from Waterfall?",a:"Agile's customer-centric, iterative approach accelerates time-to-market and better adapts to changing requirements",choices:["Agile produces more documentation","Agile requires fewer developers","Agile's customer-centric, iterative approach accelerates time-to-market and better adapts to changing requirements","Agile completely eliminates testing"],},
+{civ:"SW Process",q:"In the Incremental Model, what key advantage does delivering in increments provide?",a:"Users receive and can use core functionality early, while additional modules are added over time",choices:["The entire project costs less","Users receive and can use core functionality early, while additional modules are added over time","No testing is required between increments","The team can work without a schedule"]},
+
+// ════════════════ CLASS NOTES EXTRAS ════════════════
+{civ:"Class Notes",q:"According to class notes, what is a 'system' in the context of software?",a:"Something that has a process — it is called software if it needs to do a specific task",choices:["Any hardware device connected to the internet","Something that has a process — it is called software if it needs to do a specific task","A collection of databases and servers","Any program written in an object-oriented language"]},
+{civ:"Class Notes",q:"What does 'Heterogeneity' mean in the context of software from class notes?",a:"The ability to run across all platforms and interoperate with different systems",choices:["Using multiple programming languages","The ability to run across all platforms and interoperate with different systems","Having many development teams","Supporting multiple currencies"]},
+{civ:"Class Notes",q:"What real-world example was given in class for 'Business and Social Change' as an issue affecting software?",a:"Companies demanding mobile app development to meet customer needs",choices:["Governments banning certain software","Companies demanding mobile app development to meet customer needs","Universities switching to online learning","Hospitals digitising patient records"]},
+{civ:"Class Notes",q:"What example of a trust issue was mentioned in class for 'Security and Trust'?",a:"Trust issues in board exams",choices:["Password hacking incidents","Trust issues in board exams","Social media data leaks","E-commerce fraud"]},
+{civ:"Class Notes",q:"According to class notes, what does 'Scale' in software engineering encompass?",a:"Size of the system including number of users, reach, server infrastructure, and whether it is embedded or cloud-based",choices:["Only the lines of code written","Size of the system including number of users, reach, server infrastructure, and whether it is embedded or cloud-based","Only the physical size of the hardware","The number of developers on the team"]},
+{civ:"Class Notes",q:"The class notes describe the Scrum Master as similar to what role?",a:"A coach for the team",choices:["A project manager who assigns tasks","A coach for the team","A senior developer who writes the most code","A client representative"]},
+{civ:"Class Notes",q:"According to class notes, what is the Product Backlog described as?",a:"Arranged from highest priority to lowest priority",choices:["A random list of features","Arranged alphabetically by feature name","Arranged from highest priority to lowest priority","A list only the Scrum Master can access"]},
+{civ:"Class Notes",q:"In the context of the Sprint Planning Meeting inputs from class, which of the following is NOT listed?",a:"Developer salary information",choices:["Team capabilities","Business conditions","Technology","Developer salary information"]},
+{civ:"Class Notes",q:"What does the class note say about software and additional features?",a:"You should not stop the software just to add additional features — it should continue running",choices:["Every new feature requires a full rewrite","You should not stop the software just to add additional features — it should continue running","Additional features always require a new license","Features should only be added during major version releases"]},
+{civ:"Class Notes",q:"According to class notes, what happens at the end of a Sprint Review Meeting?",a:"The result of the Sprint Backlog is reviewed and presented",choices:["The team is dissolved and reformed","The result of the Sprint Backlog is reviewed and presented","New product requirements are frozen","The Scrum Master writes the final report"]},
+{civ:"Class Notes",q:"What is the Sprint duration range specified in the class notes?",a:"Minimum 1 week, maximum 4 weeks",choices:["Minimum 1 day, maximum 1 week","Minimum 2 weeks, maximum 6 weeks","Minimum 1 week, maximum 4 weeks","Exactly 2 weeks always"]},
+{civ:"Class Notes",q:"According to class notes, what is the Kickoff Meeting in Scrum?",a:"A meeting prior to the Sprint — held before the sprint officially begins",choices:["The final meeting of the project","A meeting prior to the Sprint — held before the sprint officially begins","The daily standup renamed","A meeting only for the Product Owner and client"]},
+];
+
+const TOPICS=["All","SE Basics","SW Products","Ethics","Case Studies","SW Process","Agile","Scrum Roles","Scrum Ops","Artifacts","Class Notes"];
+const LETS=["A","B","C","D"];
+let selTopic="All",questions=[],cur=0,score=0,answers=[],answered=false;
+
+function shuffle(a){return[...a].sort(()=>Math.random()-0.5);}
+
+function buildGrid(){
+  const g=document.getElementById('civGrid');
+  TOPICS.forEach(c=>{
+    if(c==="SE Basics"){
+      const s=document.createElement('div');
+      s.className='topic-sep';s.textContent='— Software Engineering Ch.1 —';
+      g.appendChild(s);
+    }
+    if(c==="SW Process"){
+      const s=document.createElement('div');
+      s.className='topic-sep';s.textContent='— Process Models —';
+      g.appendChild(s);
+    }
+    if(c==="Agile"){
+      const s=document.createElement('div');
+      s.className='topic-sep';s.textContent='— Agile & Scrum —';
+      g.appendChild(s);
+    }
+    if(c==="Class Notes"){
+      const s=document.createElement('div');
+      s.className='topic-sep';s.textContent='— Class Notes Extras —';
+      g.appendChild(s);
+    }
+    const b=document.createElement('button');
+    b.className='civ-btn'+(c==='All'?' sel':'');
+    b.textContent=c;
+    b.onclick=()=>{
+      selTopic=c;
+      document.querySelectorAll('.civ-btn').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');updateCount();
+    };
+    g.appendChild(b);
+  });
+  updateCount();
+}
+
+function updateCount(){
+  const pool=selTopic==='All'?ALL:ALL.filter(q=>q.civ===selTopic);
+  document.getElementById('countText').textContent='// '+pool.length+' questions loaded';
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function startQuiz(){
+  const pool=selTopic==='All'?ALL:ALL.filter(q=>q.civ===selTopic);
+  questions=shuffle(pool).map(q=>({...q,choices:shuffle(q.choices)}));
+  cur=0;score=0;answers=[];answered=false;
+  showScreen('quiz-screen');renderQ();
+}
+
+function renderQ(){
+  answered=false;
+  const q=questions[cur];
+  const col=CIV_COLORS[q.civ]||'#38bdf8';
+  document.getElementById('qCounter').textContent=(cur+1)+' / '+questions.length;
+  const civEl=document.getElementById('qCiv');
+  civEl.textContent=q.civ;civEl.setAttribute('data-civ',q.civ);
+  document.getElementById('qScore').textContent=score+' pts';
+  document.getElementById('qAccent').style.background=col;
+  document.getElementById('progFill').style.width=(cur/questions.length*100)+'%';
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('fbArea').style.display='none';
+  const box=document.getElementById('choicesBox');
+  box.innerHTML='';
+  q.choices.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.className='choice-btn fade-in';
+    b.style.animationDelay=(i*0.07)+'s';
+    b.innerHTML='<span class="clet">'+LETS[i]+'</span>'+c;
+    b.onclick=()=>handleChoice(c,b,q);
+    box.appendChild(b);
+  });
+}
+
+function handleChoice(choice,btn,q){
+  if(answered)return;
+  answered=true;
+  const ok=choice===q.a;
+  if(ok)score++;
+  answers.push({q:q.q,chosen:choice,correct:q.a,ok,civ:q.civ});
+  document.querySelectorAll('.choice-btn').forEach(b=>{
+    b.disabled=true;
+    const txt=b.textContent.replace(/^[A-D]/,'').trim();
+    if(txt===q.a){b.classList.add('correct');b.innerHTML+='<span class="chk">✓</span>';}
+    else if(b===btn&&!ok){b.classList.add('wrong');b.innerHTML+='<span class="chk">✗</span>';}
+  });
+  const fb=document.getElementById('fbArea');
+  const msg=document.getElementById('fbMsg');
+  const nb=document.getElementById('nextBtn');
+  fb.style.display='block';
+  if(ok){msg.textContent='Correct!';msg.className='fb-msg correct';}
+  else{msg.textContent='Incorrect. The answer was: '+q.a;msg.className='fb-msg wrong';}
+  nb.textContent=(cur+1>=questions.length)?'See Results →':'Next →';
+}
+
+function nextQ(){
+  if(cur+1>=questions.length){showResults();}
+  else{cur++;renderQ();}
+}
+
+function showResults(){
+  showScreen('results-screen');
+  const pct=Math.round(score/questions.length*100);
+  const rank=pct>=95?"Senior Engineer":pct>=85?"Software Architect":pct>=75?"Mid-Level Dev":pct>=60?"Junior Dev":pct>=40?"Intern":"Boot Camp Day 1";
+  const col=pct>=95?"#38bdf8":pct>=85?"#22d3ee":pct>=75?"#86efac":pct>=60?"#f59e0b":pct>=40?"#94a3b8":"#3d4f6b";
+  const pe=document.getElementById('resPct');
+  pe.textContent=pct+'%';pe.style.color=col;
+  const re=document.getElementById('resRank');
+  re.textContent=rank;re.style.color=col;
+  document.getElementById('resSub').textContent=score+' of '+questions.length+' correct';
+  setTimeout(()=>{
+    const b=document.getElementById('resBar');
+    b.style.background='linear-gradient(to right,var(--accent2),'+col+')';
+    b.style.width=pct+'%';
+  },100);
+  const list=document.getElementById('reviewList');
+  list.innerHTML='';
+  answers.forEach((a,i)=>{
+    const d=document.createElement('div');
+    d.className='rev-item '+(a.ok?'correct':'wrong');
+    d.innerHTML=`<div class="rev-q">${i+1}. [${a.civ}] ${a.q}</div>
+      <div class="rev-your ${a.ok?'correct':'wrong'}">${a.ok?'✓':'✗'} Your answer: ${a.chosen}</div>
+      ${!a.ok?`<div class="rev-ans">✓ Correct: ${a.correct}</div>`:''}`;
+    list.appendChild(d);
+  });
+}
+
+function goHome(){showScreen('start-screen');}
+buildGrid();
+</script>
+</body>
+</html>
